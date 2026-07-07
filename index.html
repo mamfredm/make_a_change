@@ -94,7 +94,25 @@
 
   footer{ margin-top:40px; padding-top:16px; border-top:1px solid var(--line); font-size:11.5px; color:#6b6455; line-height:1.65; }
   footer a{ color:var(--teal); }
-  @media (max-width:480px){ .lang-toggle{ position:static; margin-bottom:10px; display:inline-flex; } .eyebrow{ padding-right:0; } .legend-row{ grid-template-columns:1fr; gap:2px; } }
+
+  .modal-overlay{ display:none; position:fixed; inset:0; background:rgba(22,54,52,.45); z-index:50; align-items:flex-start; justify-content:center; padding:40px 16px; overflow-y:auto; }
+  .modal-overlay.open{ display:flex; }
+  .modal{ background:#fff; border-radius:8px; max-width:520px; width:100%; padding:22px 24px 20px; position:relative; box-shadow:0 20px 60px rgba(0,0,0,.25); }
+  .modal-close{ position:absolute; top:12px; right:14px; background:none; border:none; font-size:20px; line-height:1; color:#8a8272; cursor:pointer; padding:4px; }
+  .modal-close:hover{ color:var(--ink); }
+  .modal-country{ font-family:'Fraunces',serif; font-weight:600; font-size:24px; color:var(--teal-deep); margin:0 0 2px; padding-right:24px; }
+  .modal-sub{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:#8a8272; margin-bottom:14px; }
+  .modal-issue-tag{ display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:11px; padding:4px 10px; border-radius:20px; color:#fff; margin-bottom:12px; }
+  .modal-explain{ font-size:13.5px; line-height:1.55; color:#3d4a45; background:var(--paper); border-radius:6px; padding:12px 14px; margin-bottom:16px; }
+  .modal-bars{ display:flex; flex-direction:column; gap:8px; }
+  .modal-bar-row{ display:grid; grid-template-columns:130px 1fr 40px; gap:8px; align-items:center; }
+  .modal-bar-label{ font-size:12px; }
+  .modal-bar-track{ height:8px; background:var(--paper-dim); border-radius:4px; overflow:hidden; }
+  .modal-bar-fill{ height:100%; border-radius:4px; }
+  .modal-bar-val{ font-family:'IBM Plex Mono',monospace; font-size:11px; text-align:right; color:#55564f; }
+  .modal-nodata{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#a39c86; }
+
+  @media (max-width:480px){ .lang-toggle{ position:static; margin-bottom:10px; display:inline-flex; } .eyebrow{ padding-right:0; } .legend-row{ grid-template-columns:1fr; gap:2px; } .modal-bar-row{ grid-template-columns:100px 1fr 34px; } }
 </style>
 </head>
 <body>
@@ -137,6 +155,13 @@
   </div>
 
   <footer id="footer"></footer>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalBox">
+    <button class="modal-close" id="modalClose">&times;</button>
+    <div id="modalContent"></div>
+  </div>
 </div>
 
 <script>
@@ -185,6 +210,15 @@ en: {
   bars: {corr:"COR",civlib:"CL",rol:"RoL",press:"PF",gini:"INEQ",civ_badness:"WAR-C",brd_badness:"WAR-B"},
   giniYearLabel: "Gini year", noData: "no data",
   footer: 'Sources: <a href="https://www.v-dem.net" target="_blank">V-Dem Institute</a> v16 · <a href="https://data.worldbank.org/indicator/SI.POV.GINI" target="_blank">World Bank Gini index</a> · <a href="https://ucdp.uu.se" target="_blank">UCDP</a> One-sided Violence &amp; Battle-Related Deaths datasets v26.1. Regime categories follow V-Dem\'s Regimes of the World typology (v2x_regime). Refresh by re-running the aggregation script when new releases come out (V-Dem: annual; Gini: irregular per country; UCDP: annual).',
+  modalSub: (year,n) => `Regime data from ${year} · ${n} of 7 indicators available`,
+  explainIntro: (country, topLabel, topPct) => `${country}'s top concern is <b>${topLabel}</b> — at ${topPct}%, it's the worst of the indicators with data for this country.`,
+  explainSecond: (label, pct) => ` The next-worst is ${label} at ${pct}%.`,
+  explainWarNote: (civ, brd) => ` It also has recorded war data — ${civ} — that just wasn't severe enough to outrank the above.`,
+  explainWarNoneNote: " No recent war data was recorded for this country in UCDP's civilian-violence or battle-deaths datasets — that means no incidents matching those specific datasets' criteria were logged, not necessarily that the country is fully at peace.",
+  civPart: (n) => `${n} civilian deaths from targeted violence (2021–2025)`,
+  brdPart: (n) => `${n} battle deaths (2021–2025)`,
+  andWord: " and ",
+  giniLine: (year) => `Gini data from ${year}.`,
 },
 de: {
   eyebrow: "Civic Pulse — 178 Länder, 7 Indikatoren",
@@ -216,10 +250,19 @@ de: {
   bars: {corr:"KOR",civlib:"BF",rol:"RS",press:"PF",gini:"UNGL",civ_badness:"KRIEG-Z",brd_badness:"KRIEG-K"},
   giniYearLabel: "Gini-Jahr", noData: "keine Daten",
   footer: 'Quellen: <a href="https://www.v-dem.net" target="_blank">V-Dem Institute</a> v16 · <a href="https://data.worldbank.org/indicator/SI.POV.GINI" target="_blank">Gini-Index der Weltbank</a> · <a href="https://ucdp.uu.se" target="_blank">UCDP</a> One-sided Violence &amp; Battle-Related Deaths Datensätze v26.1. Die Regimekategorien folgen V-Dems „Regimes of the World"-Typologie (v2x_regime). Aktualisierung durch erneutes Ausführen des Aggregationsskripts bei neuen Veröffentlichungen (V-Dem: jährlich; Gini: unregelmäßig je Land; UCDP: jährlich).',
+  modalSub: (year,n) => `Regime-Daten von ${year} · ${n} von 7 Indikatoren verfügbar`,
+  explainIntro: (country, topLabel, topPct) => `Das Hauptproblem von ${country} ist <b>${topLabel}</b> — mit ${topPct}% der schlechteste Wert unter den verfügbaren Indikatoren für dieses Land.`,
+  explainSecond: (label, pct) => ` Der zweitschlechteste ist ${label} mit ${pct}%.`,
+  explainWarNote: (civ, brd) => ` Es gibt auch erfasste Kriegsdaten — ${civ} — die aber nicht schwerwiegend genug waren, um die obigen Werte zu übertreffen.`,
+  explainWarNoneNote: " Für dieses Land wurden in UCDPs Datensätzen zu ziviler Gewalt oder Kampftoten keine aktuellen Kriegsdaten erfasst — das bedeutet, dass keine Vorfälle nach den Kriterien dieser spezifischen Datensätze verzeichnet wurden, nicht zwangsläufig, dass das Land vollständig friedlich ist.",
+  civPart: (n) => `${n} zivile Todesopfer durch gezielte Gewalt (2021–2025)`,
+  brdPart: (n) => `${n} Kampftote (2021–2025)`,
+  andWord: " und ",
+  giniLine: (year) => `Gini-Daten von ${year}.`,
 }
 };
 
-let lang='en', activeIssue='All', activeRegion='All', searchTerm='', activeTab='overview', mapColorMode='concern', rankField='corr', expandedCards=new Set();
+let lang='en', activeIssue='All', activeRegion='All', searchTerm='', activeTab='overview', mapColorMode='concern', rankField='corr';
 
 function t(){ return UI[lang]; }
 
@@ -324,7 +367,7 @@ function renderMap(){
       tile.style.background = mapColorMode==='concern' ? issueColor(d.issue_key) : regimeColor(d.regime_code);
       tile.textContent = d.iso3;
       tile.title = `${d.country} — ${mapColorMode==='concern' ? (t().issueNames[d.issue_key]||d.issue_key) : (t().regimeNames[d.regime_code])}`;
-      tile.onclick=()=>{ activeTab='browse'; searchTerm=d.country.toLowerCase(); document.getElementById('search').value=d.country; expandedCards.add(d.iso3); renderAll(); };
+      tile.onclick=()=>openModal(d);
       grid.appendChild(tile);
     });
     block.appendChild(grid);
@@ -351,6 +394,59 @@ function cardBarsHtml(d, full){
   return rows.join('');
 }
 
+function computeDimValues(d){
+  return DIMENSIONS.map(dim=>{
+    let raw=d[dim.field];
+    if(raw===null||raw===undefined) return null;
+    let display = dim.scale100 ? raw/100 : raw;
+    if(dim.invert) display = 1-display;
+    return {key:dim.key, color:dim.color, pct:Math.round(display*100)};
+  }).filter(Boolean);
+}
+
+function openModal(d){
+  const vals = computeDimValues(d).sort((a,b)=>b.pct-a.pct);
+  const top = vals[0];
+  const second = vals[1];
+  let explain = t().explainIntro(d.country, t().issueNames[top.key]||top.key, top.pct);
+  if(second) explain += t().explainSecond(t().issueNames[second.key]||second.key, second.pct);
+
+  const hasWar = d.civ_deaths!=null || d.brd_deaths!=null;
+  const warIsTop = top.key.indexOf('War')===0;
+  if(hasWar && !warIsTop){
+    const parts=[];
+    if(d.civ_deaths!=null) parts.push(t().civPart(d.civ_deaths));
+    if(d.brd_deaths!=null) parts.push(t().brdPart(d.brd_deaths));
+    explain += t().explainWarNote(parts.join(t().andWord));
+  } else if(!hasWar){
+    explain += t().explainWarNoneNote;
+  }
+
+  const barsHtml = vals.map(v=>`
+    <div class="modal-bar-row">
+      <span class="modal-bar-label">${t().issueNames[v.key]||v.key}</span>
+      <div class="modal-bar-track"><div class="modal-bar-fill" style="width:${v.pct}%;background:${v.color}"></div></div>
+      <span class="modal-bar-val">${v.pct}%</span>
+    </div>`).join('');
+
+  const missing = DIMENSIONS.length - vals.length;
+  const giniNote = d.gini!=null ? `<p class="modal-nodata">${t().giniLine(d.gini_year)}</p>` : '';
+
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-country">${d.country}</div>
+    <div class="modal-sub">${t().modalSub(d.year, vals.length)}${missing>0 ? ' · '+missing+' '+t().noData : ''}</div>
+    <span class="modal-issue-tag" style="background:${issueColor(d.issue_key)}">${t().regimeNames[d.regime_code]} — ${t().issueNames[d.issue_key]||d.issue_key}</span>
+    <div class="modal-explain">${explain}</div>
+    <div class="modal-bars">${barsHtml}</div>
+    ${giniNote}
+  `;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal(){ document.getElementById('modalOverlay').classList.remove('open'); }
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalOverlay').addEventListener('click', e=>{ if(e.target.id==='modalOverlay') closeModal(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+
 function renderBrowse(){
   const grid=document.getElementById('grid');
   const filtered=DATA.filter(d=>
@@ -366,26 +462,18 @@ function renderBrowse(){
   if(filtered.length===0){ grid.innerHTML=`<div class="empty">${t().emptyState}</div>`; return; }
   filtered.forEach(d=>{
     const card=document.createElement('div');
-    card.className='card'+(expandedCards.has(d.iso3)?' expanded':'');
+    card.className='card';
     card.style.borderLeftColor=issueColor(d.issue_key);
     const regimeName=t().regimeNames[d.regime_code]||'';
     const issueName=t().issueNames[d.issue_key]||d.issue_key;
-    let giniLine = d.gini!=null ? `<div class="regime">${t().giniYearLabel}: ${d.gini_year}</div>` : '';
     card.innerHTML=`
       <div class="card-top"><span class="country">${d.country}</span><span class="region">${t().regionNames[d.region]||d.region}</span></div>
       <div class="regime"><b>${t().regimeLabel}</b> ${regimeName} <span style="color:#a39c86;">(${d.year})</span></div>
       <span class="issue-tag">${issueName}</span>
       <div class="bars">${cardBarsHtml(d,false)}</div>
       <div class="expand-hint">${t().clickHint}</div>
-      <div class="card-detail">${cardBarsHtml(d,true).replace(cardBarsHtml(d,false),'')}${giniLine}</div>
     `;
-    // build full detail properly (avoid duplicate replace hack)
-    const detail = card.querySelector('.card-detail');
-    detail.innerHTML = barRowHtml(t().bars.gini, d.gini!=null?Math.round(d.gini):0, issueColor(d.issue_key)) +
-      (d.civ_badness!=null ? barRowHtml(t().bars.civ_badness, Math.round(d.civ_badness*100), issueColor(d.issue_key)) : '') +
-      (d.brd_badness!=null ? barRowHtml(t().bars.brd_badness, Math.round(d.brd_badness*100), issueColor(d.issue_key)) : '') +
-      giniLine;
-    card.onclick=()=>{ if(expandedCards.has(d.iso3)) expandedCards.delete(d.iso3); else expandedCards.add(d.iso3); renderBrowse(); };
+    card.onclick=()=>openModal(d);
     grid.appendChild(card);
   });
 }
@@ -404,8 +492,10 @@ function renderRankings(){
   withVal.forEach((item,i)=>{
     const row=document.createElement('div'); row.className='rank-row';
     const pct=Math.round(item.display*100);
+    row.style.cursor='pointer';
     row.innerHTML=`<span class="rank-num">${i+1}</span><span class="rank-name">${item.d.country}</span>
       <div class="rank-bar-wrap"><div class="rank-track"><div class="rank-fill" style="width:${pct}%;background:${dim.color}"></div></div><span class="rank-val">${pct}</span></div>`;
+    row.onclick=()=>openModal(item.d);
     list.appendChild(row);
   });
 }
