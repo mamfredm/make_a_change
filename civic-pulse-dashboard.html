@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Civic Pulse — A Starting Atlas</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;500;600&display=swap');
+
+  :root{
+    --ink: #1c2b28;
+    --paper: #f0ece1;
+    --paper-dim: #e6e0d0;
+    --teal: #2d5d5a;
+    --teal-deep: #163634;
+    --ochre: #b5793a;
+    --rust: #a8462f;
+    --line: #c9c0a8;
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin:0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Source Sans 3', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap{ max-width: 980px; margin: 0 auto; padding: 28px 20px 80px; }
+
+  header{ border-bottom: 2px solid var(--ink); padding-bottom: 18px; margin-bottom: 22px; }
+
+  .eyebrow{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin: 0 0 6px;
+  }
+
+  h1{
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(28px, 6vw, 44px);
+    margin: 0 0 10px;
+    line-height: 1.05;
+    color: var(--teal-deep);
+  }
+
+  .lede{
+    max-width: 640px;
+    font-size: 15px;
+    line-height: 1.55;
+    color: #3d4a45;
+    margin: 0;
+  }
+
+  .lede b{ color: var(--rust); font-weight: 600; }
+
+  .sources{
+    margin-top: 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: #6b6455;
+  }
+  .sources span{ margin-right: 14px; }
+
+  .controls{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 22px 0 6px;
+  }
+
+  .controls input[type="text"]{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    padding: 9px 12px;
+    border: 1.5px solid var(--ink);
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: 3px;
+    flex: 1 1 200px;
+    min-width: 160px;
+  }
+
+  .chip{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    padding: 7px 11px;
+    border: 1.5px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all .15s ease;
+    white-space: nowrap;
+  }
+  .chip:hover{ border-color: var(--teal); }
+  .chip.active{ background: var(--teal-deep); border-color: var(--teal-deep); color: var(--paper); }
+
+  .count{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: #6b6455;
+    margin: 14px 0 10px;
+  }
+
+  .grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 12px;
+  }
+
+  .card{
+    background: #fff;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--ochre);
+    border-radius: 4px;
+    padding: 14px 16px;
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .card:hover{ transform: translateY(-2px); box-shadow: 0 6px 16px rgba(28,43,40,0.08); }
+  .card[data-issue="War / conflict"]{ border-left-color: var(--rust); }
+  .card[data-issue="Corruption"]{ border-left-color: var(--ochre); }
+  .card[data-issue="Press freedom / dissent"]{ border-left-color: #6b4a8a; }
+  .card[data-issue="Inequality"]{ border-left-color: var(--teal); }
+  .card[data-issue="Democratic backsliding"]{ border-left-color: #7a6a3a; }
+
+  .card-top{ display:flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+
+  .country{ font-family: 'Fraunces', serif; font-weight: 600; font-size: 18px; color: var(--teal-deep); }
+  .region{ font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #8a8272; text-transform: uppercase; letter-spacing: .06em; }
+
+  .regime{ font-size: 12.5px; color: #55564f; margin: 6px 0 8px; }
+  .regime b{ color: var(--ink); font-weight: 600; }
+
+  .issue-tag{
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    padding: 3px 8px;
+    border-radius: 20px;
+    background: var(--paper-dim);
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .note{ font-size: 12.5px; line-height: 1.45; color: #454b46; margin: 0; }
+
+  footer{
+    margin-top: 40px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    color: #6b6455;
+    line-height: 1.6;
+  }
+  footer a{ color: var(--teal); }
+
+  .empty{
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 40px 10px;
+    color: #8a8272;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">Civic Pulse — v0.1 starting atlas</p>
+    <h1>Who governs, and what people already say about it</h1>
+    <p class="lede">A first pass at overlaying <b>regime type</b> with the <b>main documented grievance</b> in each country — pulled from existing, publicly available research rather than opinion. This is a seed dataset for ~30 countries to test the idea, not a live feed.</p>
+    <p class="sources">
+      <span>◆ V-Dem Institute (regime classification)</span>
+      <span>◆ Transparency International CPI (corruption)</span>
+      <span>◆ Freedom House (civil liberties)</span>
+      <span>◆ Pew / World Values Survey (public sentiment)</span>
+    </p>
+  </header>
+
+  <div class="controls" id="issueChips"></div>
+  <div class="controls">
+    <input type="text" id="search" placeholder="Search a country…" />
+  </div>
+
+  <p class="count" id="count"></p>
+  <div class="grid" id="grid"></div>
+
+  <footer>
+    Illustrative starting set, not exhaustive or authoritative — classifications simplify complex, contested realities and can shift quickly. For live, sourced data, the real datasets are public: <a href="https://www.v-dem.net" target="_blank">v-dem.net</a>, <a href="https://www.transparency.org/en/cpi" target="_blank">transparency.org/cpi</a>, <a href="https://freedomhouse.org" target="_blank">freedomhouse.org</a>, <a href="https://worldvaluessurvey.org" target="_blank">worldvaluessurvey.org</a>. A next step worth considering: swap this seed array for a live CSV pull from those sources.
+  </footer>
+
+</div>
+
+<script>
+const DATA = [
+  {country:"United States", region:"N. America", regime:"Presidential democracy", issue:"Democratic backsliding", note:"Deep polarization, contested trust in electoral institutions, and rising inequality feature heavily in domestic surveys."},
+  {country:"Russia", region:"Europe/Asia", regime:"Centralized authoritarian", issue:"War / conflict", note:"War in Ukraine, tight press control, and suppressed political opposition dominate independent assessments."},
+  {country:"China", region:"Asia", regime:"One-party state", issue:"Press freedom / dissent", note:"Extensive censorship and surveillance; strong state control over information and dissent."},
+  {country:"Ukraine", region:"Europe", regime:"Democracy (wartime)", issue:"War / conflict", note:"Ongoing war since 2022; population directly bearing the human cost of the conflict."},
+  {country:"Germany", region:"Europe", regime:"Parliamentary democracy", issue:"Inequality", note:"Relatively stable governance; recurring debate over energy costs, migration policy, and regional inequality."},
+  {country:"France", region:"Europe", regime:"Semi-presidential democracy", issue:"Democratic backsliding", note:"Frequent mass protests over pension and economic reform; persistent distrust in political elites."},
+  {country:"United Kingdom", region:"Europe", regime:"Parliamentary democracy", issue:"Inequality", note:"Cost-of-living pressures and regional inequality are recurring themes in public sentiment surveys."},
+  {country:"India", region:"Asia", regime:"Federal democracy", issue:"Press freedom / dissent", note:"Freedom House and others have flagged declining press freedom rankings and communal tension in recent years."},
+  {country:"Pakistan", region:"Asia", regime:"Hybrid (military-influenced)", issue:"Corruption", note:"Recurring cycles of civilian government and military influence; high perceived corruption."},
+  {country:"Myanmar", region:"Asia", regime:"Military junta", issue:"War / conflict", note:"Military coup (2021) followed by ongoing civil conflict and severe human rights documentation gaps."},
+  {country:"North Korea", region:"Asia", regime:"Totalitarian", issue:"Press freedom / dissent", note:"Ranked at or near the bottom of nearly every global freedom and information-access index."},
+  {country:"Afghanistan", region:"Asia", regime:"Authoritarian (Taliban)", issue:"Press freedom / dissent", note:"Severe restrictions on women's rights and civil liberties documented since 2021."},
+  {country:"Iran", region:"Middle East", regime:"Theocratic authoritarian", issue:"Press freedom / dissent", note:"Widespread protests since 2022 met with harsh crackdowns; strict information controls."},
+  {country:"Saudi Arabia", region:"Middle East", regime:"Absolute monarchy", issue:"Press freedom / dissent", note:"No elected national legislature; tightly controlled press and dissent."},
+  {country:"Israel", region:"Middle East", regime:"Parliamentary democracy", issue:"War / conflict", note:"Ongoing conflict with Gaza/Palestinian territories; deep domestic divisions over judicial reform."},
+  {country:"Turkey", region:"Europe/Asia", regime:"Presidential (hybrid)", issue:"Democratic backsliding", note:"V-Dem and Freedom House have both noted a multi-year decline in judicial independence and press freedom."},
+  {country:"Venezuela", region:"S. America", regime:"Authoritarian", issue:"Corruption", note:"Severe economic crisis, mass emigration, and contested elections widely documented."},
+  {country:"Brazil", region:"S. America", regime:"Presidential democracy", issue:"Inequality", note:"High income inequality alongside a resilient democratic institution set, per V-Dem."},
+  {country:"Argentina", region:"S. America", regime:"Presidential democracy", issue:"Corruption", note:"Recurring economic instability and corruption scandals across administrations."},
+  {country:"Mexico", region:"N. America", regime:"Presidential democracy", issue:"Corruption", note:"High-profile corruption and cartel-related violence remain top public concerns in national surveys."},
+  {country:"Nigeria", region:"Africa", regime:"Federal democracy", issue:"Corruption", note:"Consistently ranks among the lower half of the Corruption Perceptions Index despite competitive elections."},
+  {country:"Ethiopia", region:"Africa", regime:"Federal (dominant party)", issue:"War / conflict", note:"Internal conflicts (notably Tigray, 2020–2022) with major documented humanitarian impact."},
+  {country:"South Africa", region:"Africa", regime:"Parliamentary democracy", issue:"Inequality", note:"One of the highest income-inequality rates globally despite strong constitutional protections."},
+  {country:"Sudan", region:"Africa", regime:"Civil war / contested", issue:"War / conflict", note:"Ongoing civil war since 2023 with one of the world's largest current displacement crises."},
+  {country:"Egypt", region:"Africa", regime:"Presidential authoritarian", issue:"Press freedom / dissent", note:"Consistently low press freedom rankings; broad restrictions on political opposition."},
+  {country:"Japan", region:"Asia", regime:"Parliamentary democracy", issue:"Democratic backsliding", note:"Stable democracy; public concern centers more on long-term single-party dominance and low voter turnout."},
+  {country:"South Korea", region:"Asia", regime:"Presidential democracy", issue:"Democratic backsliding", note:"Strong democratic institutions tested by a 2024 martial-law attempt, later reversed."},
+  {country:"Poland", region:"Europe", regime:"Parliamentary democracy", issue:"Democratic backsliding", note:"Years of EU concern over judicial independence, partially reversed after the 2023 election."},
+  {country:"Hungary", region:"Europe", regime:"Hybrid regime", issue:"Democratic backsliding", note:"V-Dem has downgraded Hungary from full democracy over media concentration and judicial independence concerns."},
+  {country:"Sweden", region:"Europe", regime:"Parliamentary democracy", issue:"Inequality", note:"Consistently ranks near the top of global democracy and low-corruption indices."},
+];
+
+const issues = ["All", ...Array.from(new Set(DATA.map(d => d.issue)))];
+let activeIssue = "All";
+let searchTerm = "";
+
+const chipWrap = document.getElementById('issueChips');
+issues.forEach(issue => {
+  const btn = document.createElement('button');
+  btn.className = 'chip' + (issue === 'All' ? ' active' : '');
+  btn.textContent = issue;
+  btn.onclick = () => {
+    activeIssue = issue;
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+  };
+  chipWrap.appendChild(btn);
+});
+
+document.getElementById('search').addEventListener('input', e => {
+  searchTerm = e.target.value.toLowerCase();
+  render();
+});
+
+function render(){
+  const grid = document.getElementById('grid');
+  const filtered = DATA.filter(d =>
+    (activeIssue === 'All' || d.issue === activeIssue) &&
+    d.country.toLowerCase().includes(searchTerm)
+  );
+  document.getElementById('count').textContent = `${filtered.length} of ${DATA.length} countries shown`;
+
+  grid.innerHTML = '';
+  if(filtered.length === 0){
+    grid.innerHTML = '<div class="empty">No matches — try a different filter or search term.</div>';
+    return;
+  }
+  filtered.forEach(d => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.issue = d.issue;
+    card.innerHTML = `
+      <div class="card-top">
+        <span class="country">${d.country}</span>
+        <span class="region">${d.region}</span>
+      </div>
+      <div class="regime"><b>Regime:</b> ${d.regime}</div>
+      <span class="issue-tag">${d.issue}</span>
+      <p class="note">${d.note}</p>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+render();
+</script>
+</body>
+</html>
