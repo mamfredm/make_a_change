@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Civic Pulse — A Starting Atlas</title>
+<title>Civic Pulse — V-Dem Edition</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;500;600&display=swap');
 
@@ -15,6 +15,7 @@
     --teal-deep: #163634;
     --ochre: #b5793a;
     --rust: #a8462f;
+    --purple: #6b4a8a;
     --line: #c9c0a8;
   }
 
@@ -28,166 +29,90 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  .wrap{ max-width: 980px; margin: 0 auto; padding: 28px 20px 80px; }
+  .wrap{ max-width: 1080px; margin: 0 auto; padding: 28px 20px 80px; }
 
   header{ border-bottom: 2px solid var(--ink); padding-bottom: 18px; margin-bottom: 22px; position: relative; }
 
   .lang-toggle{
-    position: absolute;
-    top: 0;
-    right: 0;
-    display: flex;
-    gap: 0;
-    border: 1.5px solid var(--ink);
-    border-radius: 20px;
-    overflow: hidden;
+    position: absolute; top: 0; right: 0;
+    display: flex; border: 1.5px solid var(--ink); border-radius: 20px; overflow: hidden;
   }
   .lang-toggle button{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: .05em;
-    padding: 6px 12px;
-    border: none;
-    background: transparent;
-    color: var(--ink);
-    cursor: pointer;
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .05em;
+    padding: 6px 12px; border: none; background: transparent; color: var(--ink); cursor: pointer;
   }
   .lang-toggle button.active{ background: var(--teal-deep); color: var(--paper); }
 
   .eyebrow{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--teal);
-    margin: 0 0 6px;
-    padding-right: 90px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--teal); margin: 0 0 6px; padding-right: 90px;
   }
 
   h1{
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: clamp(26px, 6vw, 44px);
-    margin: 0 0 10px;
-    line-height: 1.08;
-    color: var(--teal-deep);
-    padding-right: 10px;
+    font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(24px, 5.5vw, 40px);
+    margin: 0 0 10px; line-height: 1.08; color: var(--teal-deep); padding-right: 10px;
   }
 
-  .lede{
-    max-width: 640px;
-    font-size: 15px;
-    line-height: 1.55;
-    color: #3d4a45;
-    margin: 0;
-  }
-
+  .lede{ max-width: 700px; font-size: 14.5px; line-height: 1.55; color: #3d4a45; margin: 0; }
   .lede b{ color: var(--rust); font-weight: 600; }
 
-  .sources{
-    margin-top: 14px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: #6b6455;
-  }
+  .sources{ margin-top: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: #6b6455; }
   .sources span{ margin-right: 14px; display: inline-block; }
 
-  .controls{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 22px 0 6px;
-  }
+  .controls{ display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 4px; align-items: center; }
+  .control-group{ display: flex; flex-wrap: wrap; gap: 6px; }
+  .control-label{ font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: #8a8272; margin-right: 4px; align-self: center; }
 
   .controls input[type="text"]{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    padding: 9px 12px;
-    border: 1.5px solid var(--ink);
-    background: var(--paper);
-    color: var(--ink);
-    border-radius: 3px;
-    flex: 1 1 200px;
-    min-width: 160px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 13px; padding: 9px 12px;
+    border: 1.5px solid var(--ink); background: var(--paper); color: var(--ink);
+    border-radius: 3px; flex: 1 1 200px; min-width: 160px;
   }
 
   .chip{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.02em;
-    padding: 7px 11px;
-    border: 1.5px solid var(--line);
-    background: transparent;
-    color: var(--ink);
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all .15s ease;
-    white-space: nowrap;
+    font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.02em;
+    padding: 6px 10px; border: 1.5px solid var(--line); background: transparent; color: var(--ink);
+    border-radius: 20px; cursor: pointer; transition: all .15s ease; white-space: nowrap;
   }
   .chip:hover{ border-color: var(--teal); }
   .chip.active{ background: var(--teal-deep); border-color: var(--teal-deep); color: var(--paper); }
 
-  .count{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: #6b6455;
-    margin: 14px 0 10px;
-  }
+  .count{ font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #6b6455; margin: 14px 0 10px; }
 
-  .grid{
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-    gap: 12px;
-  }
+  .grid{ display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
 
   .card{
-    background: #fff;
-    border: 1px solid var(--line);
-    border-left: 4px solid var(--ochre);
-    border-radius: 4px;
-    padding: 14px 16px;
-    transition: transform .12s ease, box-shadow .12s ease;
+    background: #fff; border: 1px solid var(--line); border-left: 4px solid var(--ochre);
+    border-radius: 4px; padding: 12px 14px; transition: transform .12s ease, box-shadow .12s ease;
   }
   .card:hover{ transform: translateY(-2px); box-shadow: 0 6px 16px rgba(28,43,40,0.08); }
 
   .card-top{ display:flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-
-  .country{ font-family: 'Fraunces', serif; font-weight: 600; font-size: 18px; color: var(--teal-deep); }
-  .region{ font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #8a8272; text-transform: uppercase; letter-spacing: .06em; }
-
-  .regime{ font-size: 12.5px; color: #55564f; margin: 6px 0 8px; }
+  .country{ font-family: 'Fraunces', serif; font-weight: 600; font-size: 16.5px; color: var(--teal-deep); }
+  .region{ font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; color: #8a8272; text-transform: uppercase; letter-spacing: .06em; }
+  .regime{ font-size: 11.5px; color: #55564f; margin: 5px 0 8px; }
   .regime b{ color: var(--ink); font-weight: 600; }
 
   .issue-tag{
-    display: inline-block;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10.5px;
-    padding: 3px 8px;
-    border-radius: 20px;
-    background: var(--paper-dim);
-    color: var(--ink);
-    margin-bottom: 8px;
+    display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+    padding: 3px 8px; border-radius: 20px; background: var(--paper-dim); color: var(--ink); margin-bottom: 8px;
   }
 
-  .note{ font-size: 12.5px; line-height: 1.45; color: #454b46; margin: 0; }
+  .bars{ display: flex; flex-direction: column; gap: 3px; margin-top: 6px; }
+  .bar-row{ display: flex; align-items: center; gap: 6px; }
+  .bar-label{ font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #8a8272; width: 26px; flex-shrink: 0; }
+  .bar-track{ flex: 1; height: 5px; background: var(--paper-dim); border-radius: 3px; overflow: hidden; }
+  .bar-fill{ height: 100%; border-radius: 3px; }
 
   footer{
-    margin-top: 40px;
-    padding-top: 16px;
-    border-top: 1px solid var(--line);
-    font-size: 12px;
-    color: #6b6455;
-    line-height: 1.6;
+    margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line);
+    font-size: 12px; color: #6b6455; line-height: 1.6;
   }
   footer a{ color: var(--teal); }
 
   .empty{
-    grid-column: 1/-1;
-    text-align: center;
-    padding: 40px 10px;
-    color: #8a8272;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
+    grid-column: 1/-1; text-align: center; padding: 40px 10px; color: #8a8272;
+    font-family: 'IBM Plex Mono', monospace; font-size: 13px;
   }
 
   @media (max-width: 480px){
@@ -198,7 +123,6 @@
 </head>
 <body>
 <div class="wrap">
-
   <header>
     <div class="lang-toggle" id="langToggle">
       <button data-lang="en" class="active">EN</button>
@@ -210,7 +134,14 @@
     <p class="sources" id="sources"></p>
   </header>
 
-  <div class="controls" id="issueChips"></div>
+  <div class="controls">
+    <span class="control-label" id="labelIssue"></span>
+    <div class="control-group" id="issueChips"></div>
+  </div>
+  <div class="controls">
+    <span class="control-label" id="labelRegion"></span>
+    <div class="control-group" id="regionChips"></div>
+  </div>
   <div class="controls">
     <input type="text" id="search" />
   </div>
@@ -219,126 +150,102 @@
   <div class="grid" id="grid"></div>
 
   <footer id="footer"></footer>
-
 </div>
 
 <script>
-// ---------- UI copy, EN/DE ----------
+const DATA = [{"country": "Afghanistan", "iso3": "AFG", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Rule of law", "issue_score": 0.98, "corr": 0.769, "civlib": 0.041, "rol": 0.02, "press": 0.022, "region": "Asia"}, {"country": "Albania", "iso3": "ALB", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.624, "corr": 0.624, "civlib": 0.872, "rol": 0.903, "press": 0.673, "region": "Europe"}, {"country": "Algeria", "iso3": "DZA", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.662, "corr": 0.662, "civlib": 0.424, "rol": 0.48, "press": 0.367, "region": "Africa"}, {"country": "Angola", "iso3": "AGO", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.57, "corr": 0.57, "civlib": 0.624, "rol": 0.606, "press": 0.497, "region": "Africa"}, {"country": "Argentina", "iso3": "ARG", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.415, "corr": 0.415, "civlib": 0.821, "rol": 0.795, "press": 0.736, "region": "America"}, {"country": "Armenia", "iso3": "ARM", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.472, "corr": 0.472, "civlib": 0.8, "rol": 0.839, "press": 0.732, "region": "Asia"}, {"country": "Australia", "iso3": "AUS", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Civil liberties", "issue_score": 0.094, "corr": 0.029, "civlib": 0.906, "rol": 0.957, "press": 0.915, "region": "Oceania"}, {"country": "Austria", "iso3": "AUT", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Corruption", "issue_score": 0.095, "corr": 0.095, "civlib": 0.907, "rol": 0.933, "press": 0.918, "region": "Europe"}, {"country": "Azerbaijan", "iso3": "AZE", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Press freedom / dissent", "issue_score": 0.908, "corr": 0.89, "civlib": 0.291, "rol": 0.301, "press": 0.092, "region": "Asia"}, {"country": "Bahrain", "iso3": "BHR", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Press freedom / dissent", "issue_score": 0.828, "corr": 0.477, "civlib": 0.3, "rol": 0.34, "press": 0.172, "region": "Asia"}, {"country": "Bangladesh", "iso3": "BGD", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Corruption", "issue_score": 0.78, "corr": 0.78, "civlib": 0.628, "rol": 0.593, "press": 0.527, "region": "Asia"}, {"country": "Barbados", "iso3": "BRB", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Rule of law", "issue_score": 0.094, "corr": 0.073, "civlib": 0.918, "rol": 0.906, "press": 0.911, "region": "America"}, {"country": "Belarus", "iso3": "BLR", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Press freedom / dissent", "issue_score": 0.975, "corr": 0.41, "civlib": 0.221, "rol": 0.207, "press": 0.025, "region": "Europe"}, {"country": "Belgium", "iso3": "BEL", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Civil liberties", "issue_score": 0.045, "corr": 0.031, "civlib": 0.955, "rol": 0.974, "press": 0.969, "region": "Europe"}, {"country": "Benin", "iso3": "BEN", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Press freedom / dissent", "issue_score": 0.324, "corr": 0.191, "civlib": 0.836, "rol": 0.87, "press": 0.676, "region": "Africa"}, {"country": "Bhutan", "iso3": "BTN", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Press freedom / dissent", "issue_score": 0.318, "corr": 0.148, "civlib": 0.701, "rol": 0.77, "press": 0.682, "region": "Asia"}, {"country": "Bolivia", "iso3": "BOL", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.763, "corr": 0.763, "civlib": 0.741, "rol": 0.696, "press": 0.68, "region": "America"}, {"country": "Bosnia and Herzegovina", "iso3": "BIH", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.726, "corr": 0.726, "civlib": 0.814, "rol": 0.801, "press": 0.653, "region": "Europe"}, {"country": "Botswana", "iso3": "BWA", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.204, "corr": 0.204, "civlib": 0.845, "rol": 0.866, "press": 0.798, "region": "Africa"}, {"country": "Brazil", "iso3": "BRA", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.423, "corr": 0.423, "civlib": 0.871, "rol": 0.86, "press": 0.91, "region": "America"}, {"country": "Bulgaria", "iso3": "BGR", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.643, "corr": 0.643, "civlib": 0.849, "rol": 0.821, "press": 0.754, "region": "Europe"}, {"country": "Burkina Faso", "iso3": "BFA", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Press freedom / dissent", "issue_score": 0.739, "corr": 0.373, "civlib": 0.455, "rol": 0.551, "press": 0.261, "region": "Africa"}, {"country": "Burma/Myanmar", "iso3": "MMR", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Press freedom / dissent", "issue_score": 0.974, "corr": 0.859, "civlib": 0.102, "rol": 0.09, "press": 0.026, "region": "Asia"}, {"country": "Burundi", "iso3": "BDI", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.845, "corr": 0.845, "civlib": 0.271, "rol": 0.24, "press": 0.164, "region": "Africa"}, {"country": "Cambodia", "iso3": "KHM", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.904, "corr": 0.904, "civlib": 0.26, "rol": 0.203, "press": 0.153, "region": "Asia"}, {"country": "Cameroon", "iso3": "CMR", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.939, "corr": 0.939, "civlib": 0.509, "rol": 0.489, "press": 0.532, "region": "Africa"}, {"country": "Canada", "iso3": "CAN", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Civil liberties", "issue_score": 0.103, "corr": 0.026, "civlib": 0.897, "rol": 0.905, "press": 0.933, "region": "America"}, {"country": "Cape Verde", "iso3": "CPV", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.288, "corr": 0.288, "civlib": 0.907, "rol": 0.879, "press": 0.857, "region": "Africa"}, {"country": "Central African Republic", "iso3": "CAF", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.854, "corr": 0.854, "civlib": 0.438, "rol": 0.239, "press": 0.613, "region": "Africa"}, {"country": "Chad", "iso3": "TCD", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.952, "corr": 0.952, "civlib": 0.284, "rol": 0.186, "press": 0.427, "region": "Africa"}, {"country": "Chile", "iso3": "CHL", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Corruption", "issue_score": 0.075, "corr": 0.075, "civlib": 0.93, "rol": 0.94, "press": 0.926, "region": "America"}, {"country": "China", "iso3": "CHN", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Press freedom / dissent", "issue_score": 0.955, "corr": 0.554, "civlib": 0.179, "rol": 0.227, "press": 0.045, "region": "Asia"}, {"country": "Colombia", "iso3": "COL", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.388, "corr": 0.388, "civlib": 0.765, "rol": 0.721, "press": 0.81, "region": "America"}, {"country": "Comoros", "iso3": "COM", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.774, "corr": 0.774, "civlib": 0.476, "rol": 0.364, "press": 0.498, "region": "Africa"}, {"country": "Costa Rica", "iso3": "CRI", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Corruption", "issue_score": 0.206, "corr": 0.206, "civlib": 0.931, "rol": 0.962, "press": 0.915, "region": "America"}, {"country": "Croatia", "iso3": "HRV", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Press freedom / dissent", "issue_score": 0.257, "corr": 0.254, "civlib": 0.886, "rol": 0.905, "press": 0.743, "region": "Europe"}, {"country": "Cuba", "iso3": "CUB", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Press freedom / dissent", "issue_score": 0.926, "corr": 0.641, "civlib": 0.302, "rol": 0.228, "press": 0.074, "region": "America"}, {"country": "Cyprus", "iso3": "CYP", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Press freedom / dissent", "issue_score": 0.188, "corr": 0.166, "civlib": 0.895, "rol": 0.936, "press": 0.812, "region": "Asia"}, {"country": "Czechia", "iso3": "CZE", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Corruption", "issue_score": 0.171, "corr": 0.171, "civlib": 0.948, "rol": 0.98, "press": 0.947, "region": "Europe"}, {"country": "Democratic Republic of the Congo", "iso3": "COD", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.886, "corr": 0.886, "civlib": 0.42, "rol": 0.24, "press": 0.599, "region": "Africa"}, {"country": "Denmark", "iso3": "DNK", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Civil liberties", "issue_score": 0.041, "corr": 0.004, "civlib": 0.959, "rol": 0.986, "press": 0.98, "region": "Europe"}, {"country": "Djibouti", "iso3": "DJI", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.706, "corr": 0.706, "civlib": 0.404, "rol": 0.448, "press": 0.336, "region": "Africa"}, {"country": "Dominican Republic", "iso3": "DOM", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.588, "corr": 0.588, "civlib": 0.874, "rol": 0.763, "press": 0.901, "region": "America"}, {"country": "Ecuador", "iso3": "ECU", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.652, "corr": 0.652, "civlib": 0.692, "rol": 0.605, "press": 0.706, "region": "America"}, {"country": "Egypt", "iso3": "EGY", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Press freedom / dissent", "issue_score": 0.821, "corr": 0.729, "civlib": 0.232, "rol": 0.299, "press": 0.179, "region": "Africa"}, {"country": "El Salvador", "iso3": "SLV", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.682, "corr": 0.682, "civlib": 0.511, "rol": 0.336, "press": 0.356, "region": "America"}, {"country": "Equatorial Guinea", "iso3": "GNQ", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Press freedom / dissent", "issue_score": 0.888, "corr": 0.858, "civlib": 0.169, "rol": 0.169, "press": 0.112, "region": "Africa"}, {"country": "Eritrea", "iso3": "ERI", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Press freedom / dissent", "issue_score": 0.976, "corr": 0.752, "civlib": 0.047, "rol": 0.026, "press": 0.024, "region": "Africa"}, {"country": "Estonia", "iso3": "EST", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Civil liberties", "issue_score": 0.037, "corr": 0.025, "civlib": 0.963, "rol": 0.979, "press": 0.969, "region": "Europe"}, {"country": "Eswatini", "iso3": "SWZ", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Press freedom / dissent", "issue_score": 0.887, "corr": 0.554, "civlib": 0.206, "rol": 0.252, "press": 0.113, "region": "Africa"}, {"country": "Ethiopia", "iso3": "ETH", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Press freedom / dissent", "issue_score": 0.715, "corr": 0.529, "civlib": 0.304, "rol": 0.341, "press": 0.285, "region": "Africa"}, {"country": "Fiji", "iso3": "FJI", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.289, "corr": 0.289, "civlib": 0.774, "rol": 0.768, "press": 0.724, "region": "Oceania"}, {"country": "Finland", "iso3": "FIN", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Press freedom / dissent", "issue_score": 0.054, "corr": 0.031, "civlib": 0.947, "rol": 0.976, "press": 0.946, "region": "Europe"}, {"country": "France", "iso3": "FRA", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Civil liberties", "issue_score": 0.083, "corr": 0.056, "civlib": 0.917, "rol": 0.938, "press": 0.959, "region": "Europe"}, {"country": "Gabon", "iso3": "GAB", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.72, "corr": 0.72, "civlib": 0.788, "rol": 0.863, "press": 0.748, "region": "Africa"}, {"country": "Georgia", "iso3": "GEO", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Press freedom / dissent", "issue_score": 0.313, "corr": 0.289, "civlib": 0.7, "rol": 0.703, "press": 0.687, "region": "Asia"}, {"country": "German Democratic Republic", "iso3": "DDR", "year": 1990, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.162, "corr": 0.162, "civlib": 0.901, "rol": 0.925, "press": 0.926, "region": "German Democratic Republic"}, {"country": "Germany", "iso3": "DEU", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Press freedom / dissent", "issue_score": 0.086, "corr": 0.024, "civlib": 0.94, "rol": 0.991, "press": 0.914, "region": "Europe"}, {"country": "Ghana", "iso3": "GHA", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.615, "corr": 0.615, "civlib": 0.912, "rol": 0.887, "press": 0.896, "region": "Africa"}, {"country": "Greece", "iso3": "GRC", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.276, "corr": 0.276, "civlib": 0.878, "rol": 0.905, "press": 0.81, "region": "Europe"}, {"country": "Guatemala", "iso3": "GTM", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.616, "corr": 0.616, "civlib": 0.766, "rol": 0.615, "press": 0.839, "region": "America"}, {"country": "Guinea", "iso3": "GIN", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Corruption", "issue_score": 0.808, "corr": 0.808, "civlib": 0.353, "rol": 0.232, "press": 0.56, "region": "Africa"}, {"country": "Guinea-Bissau", "iso3": "GNB", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Corruption", "issue_score": 0.828, "corr": 0.828, "civlib": 0.557, "rol": 0.46, "press": 0.552, "region": "Africa"}, {"country": "Guyana", "iso3": "GUY", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.507, "corr": 0.507, "civlib": 0.847, "rol": 0.773, "press": 0.771, "region": "America"}, {"country": "Haiti", "iso3": "HTI", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Corruption", "issue_score": 0.786, "corr": 0.786, "civlib": 0.743, "rol": 0.486, "press": 0.799, "region": "America"}, {"country": "Honduras", "iso3": "HND", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.752, "corr": 0.752, "civlib": 0.819, "rol": 0.775, "press": 0.861, "region": "America"}, {"country": "Hong Kong", "iso3": "HKG", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Press freedom / dissent", "issue_score": 0.773, "corr": 0.085, "civlib": 0.614, "rol": 0.71, "press": 0.227, "region": "Asia"}, {"country": "Hungary", "iso3": "HUN", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Press freedom / dissent", "issue_score": 0.507, "corr": 0.488, "civlib": 0.793, "rol": 0.845, "press": 0.493, "region": "Europe"}, {"country": "Iceland", "iso3": "ISL", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Press freedom / dissent", "issue_score": 0.154, "corr": 0.014, "civlib": 0.95, "rol": 0.974, "press": 0.846, "region": "Europe"}, {"country": "India", "iso3": "IND", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.684, "corr": 0.684, "civlib": 0.534, "rol": 0.578, "press": 0.458, "region": "Asia"}, {"country": "Indonesia", "iso3": "IDN", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.795, "corr": 0.795, "civlib": 0.63, "rol": 0.58, "press": 0.688, "region": "Asia"}, {"country": "Iran", "iso3": "IRN", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Press freedom / dissent", "issue_score": 0.834, "corr": 0.768, "civlib": 0.248, "rol": 0.297, "press": 0.166, "region": "Asia"}, {"country": "Iraq", "iso3": "IRQ", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.892, "corr": 0.892, "civlib": 0.521, "rol": 0.451, "press": 0.571, "region": "Asia"}, {"country": "Ireland", "iso3": "IRL", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Civil liberties", "issue_score": 0.044, "corr": 0.032, "civlib": 0.956, "rol": 0.975, "press": 0.97, "region": "Europe"}, {"country": "Israel", "iso3": "ISR", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Civil liberties", "issue_score": 0.213, "corr": 0.107, "civlib": 0.787, "rol": 0.832, "press": 0.822, "region": "Asia"}, {"country": "Italy", "iso3": "ITA", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Press freedom / dissent", "issue_score": 0.244, "corr": 0.157, "civlib": 0.9, "rol": 0.945, "press": 0.756, "region": "Europe"}, {"country": "Ivory Coast", "iso3": "CIV", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.598, "corr": 0.598, "civlib": 0.7, "rol": 0.659, "press": 0.681, "region": "Africa"}, {"country": "Jamaica", "iso3": "JAM", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.207, "corr": 0.207, "civlib": 0.876, "rol": 0.871, "press": 0.919, "region": "America"}, {"country": "Japan", "iso3": "JPN", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Press freedom / dissent", "issue_score": 0.153, "corr": 0.05, "civlib": 0.925, "rol": 0.958, "press": 0.847, "region": "Asia"}, {"country": "Jordan", "iso3": "JOR", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Press freedom / dissent", "issue_score": 0.444, "corr": 0.422, "civlib": 0.672, "rol": 0.793, "press": 0.556, "region": "Asia"}, {"country": "Kazakhstan", "iso3": "KAZ", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.736, "corr": 0.736, "civlib": 0.513, "rol": 0.54, "press": 0.329, "region": "Asia"}, {"country": "Kenya", "iso3": "KEN", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.564, "corr": 0.564, "civlib": 0.74, "rol": 0.693, "press": 0.9, "region": "Africa"}, {"country": "Kosovo", "iso3": "XKX", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.348, "corr": 0.348, "civlib": 0.814, "rol": 0.761, "press": 0.766, "region": "Europe"}, {"country": "Kuwait", "iso3": "KWT", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Civil liberties", "issue_score": 0.512, "corr": 0.346, "civlib": 0.488, "rol": 0.579, "press": 0.532, "region": "Asia"}, {"country": "Kyrgyzstan", "iso3": "KGZ", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.793, "corr": 0.793, "civlib": 0.478, "rol": 0.58, "press": 0.469, "region": "Asia"}, {"country": "Laos", "iso3": "LAO", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Press freedom / dissent", "issue_score": 0.968, "corr": 0.765, "civlib": 0.144, "rol": 0.22, "press": 0.032, "region": "Asia"}, {"country": "Latvia", "iso3": "LVA", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Corruption", "issue_score": 0.07, "corr": 0.07, "civlib": 0.94, "rol": 0.974, "press": 0.932, "region": "Europe"}, {"country": "Lebanon", "iso3": "LBN", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.83, "corr": 0.83, "civlib": 0.689, "rol": 0.583, "press": 0.744, "region": "Asia"}, {"country": "Lesotho", "iso3": "LSO", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.472, "corr": 0.472, "civlib": 0.835, "rol": 0.832, "press": 0.728, "region": "Africa"}, {"country": "Liberia", "iso3": "LBR", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.877, "corr": 0.877, "civlib": 0.838, "rol": 0.783, "press": 0.836, "region": "Africa"}, {"country": "Libya", "iso3": "LBY", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Rule of law", "issue_score": 0.879, "corr": 0.811, "civlib": 0.323, "rol": 0.121, "press": 0.536, "region": "Africa"}, {"country": "Lithuania", "iso3": "LTU", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Corruption", "issue_score": 0.159, "corr": 0.159, "civlib": 0.913, "rol": 0.932, "press": 0.917, "region": "Europe"}, {"country": "Luxembourg", "iso3": "LUX", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Civil liberties", "issue_score": 0.054, "corr": 0.025, "civlib": 0.946, "rol": 0.98, "press": 0.957, "region": "Europe"}, {"country": "Madagascar", "iso3": "MDG", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.882, "corr": 0.882, "civlib": 0.652, "rol": 0.482, "press": 0.635, "region": "Africa"}, {"country": "Malawi", "iso3": "MWI", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.628, "corr": 0.628, "civlib": 0.806, "rol": 0.829, "press": 0.754, "region": "Africa"}, {"country": "Malaysia", "iso3": "MYS", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Press freedom / dissent", "issue_score": 0.414, "corr": 0.322, "civlib": 0.739, "rol": 0.705, "press": 0.586, "region": "Asia"}, {"country": "Maldives", "iso3": "MDV", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.312, "corr": 0.312, "civlib": 0.724, "rol": 0.728, "press": 0.695, "region": "Asia"}, {"country": "Mali", "iso3": "MLI", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Corruption", "issue_score": 0.72, "corr": 0.72, "civlib": 0.609, "rol": 0.576, "press": 0.49, "region": "Africa"}, {"country": "Malta", "iso3": "MLT", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.186, "corr": 0.186, "civlib": 0.915, "rol": 0.929, "press": 0.829, "region": "Europe"}, {"country": "Mauritania", "iso3": "MRT", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.825, "corr": 0.825, "civlib": 0.513, "rol": 0.279, "press": 0.628, "region": "Africa"}, {"country": "Mauritius", "iso3": "MUS", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.356, "corr": 0.356, "civlib": 0.873, "rol": 0.865, "press": 0.887, "region": "Africa"}, {"country": "Mexico", "iso3": "MEX", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.574, "corr": 0.574, "civlib": 0.626, "rol": 0.536, "press": 0.619, "region": "America"}, {"country": "Moldova", "iso3": "MDA", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Press freedom / dissent", "issue_score": 0.348, "corr": 0.325, "civlib": 0.842, "rol": 0.862, "press": 0.652, "region": "Europe"}, {"country": "Mongolia", "iso3": "MNG", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.693, "corr": 0.693, "civlib": 0.801, "rol": 0.762, "press": 0.771, "region": "Asia"}, {"country": "Montenegro", "iso3": "MNE", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.43, "corr": 0.43, "civlib": 0.881, "rol": 0.883, "press": 0.853, "region": "Europe"}, {"country": "Morocco", "iso3": "MAR", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Corruption", "issue_score": 0.671, "corr": 0.671, "civlib": 0.645, "rol": 0.708, "press": 0.579, "region": "Africa"}, {"country": "Mozambique", "iso3": "MOZ", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.695, "corr": 0.695, "civlib": 0.483, "rol": 0.413, "press": 0.518, "region": "Africa"}, {"country": "Namibia", "iso3": "NAM", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.274, "corr": 0.274, "civlib": 0.883, "rol": 0.902, "press": 0.859, "region": "Africa"}, {"country": "Nepal", "iso3": "NPL", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.561, "corr": 0.561, "civlib": 0.742, "rol": 0.72, "press": 0.813, "region": "Asia"}, {"country": "Netherlands", "iso3": "NLD", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Press freedom / dissent", "issue_score": 0.09, "corr": 0.027, "civlib": 0.912, "rol": 0.95, "press": 0.91, "region": "Europe"}, {"country": "New Zealand", "iso3": "NZL", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Press freedom / dissent", "issue_score": 0.073, "corr": 0.014, "civlib": 0.948, "rol": 0.972, "press": 0.927, "region": "Oceania"}, {"country": "Nicaragua", "iso3": "NIC", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Press freedom / dissent", "issue_score": 0.982, "corr": 0.942, "civlib": 0.077, "rol": 0.03, "press": 0.018, "region": "America"}, {"country": "Niger", "iso3": "NER", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Corruption", "issue_score": 0.591, "corr": 0.591, "civlib": 0.65, "rol": 0.715, "press": 0.756, "region": "Africa"}, {"country": "Nigeria", "iso3": "NGA", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.834, "corr": 0.834, "civlib": 0.674, "rol": 0.684, "press": 0.849, "region": "Africa"}, {"country": "North Korea", "iso3": "PRK", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Rule of law", "issue_score": 0.992, "corr": 0.67, "civlib": 0.024, "rol": 0.008, "press": 0.013, "region": "Asia"}, {"country": "North Macedonia", "iso3": "MKD", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.753, "corr": 0.753, "civlib": 0.789, "rol": 0.745, "press": 0.664, "region": "Europe"}, {"country": "Norway", "iso3": "NOR", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Civil liberties", "issue_score": 0.053, "corr": 0.01, "civlib": 0.947, "rol": 0.972, "press": 0.953, "region": "Europe"}, {"country": "Oman", "iso3": "OMN", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Press freedom / dissent", "issue_score": 0.849, "corr": 0.253, "civlib": 0.446, "rol": 0.578, "press": 0.151, "region": "Asia"}, {"country": "Pakistan", "iso3": "PAK", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.802, "corr": 0.802, "civlib": 0.466, "rol": 0.343, "press": 0.559, "region": "Asia"}, {"country": "Palestine/British Mandate", "iso3": "PSB", "year": 1948, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Civil liberties", "issue_score": 0.644, "corr": 0.152, "civlib": 0.356, "rol": 0.469, "press": 0.41, "region": "Asia"}, {"country": "Palestine/Gaza", "iso3": "PSG", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Rule of law", "issue_score": 0.862, "corr": 0.372, "civlib": 0.168, "rol": 0.138, "press": 0.234, "region": "Asia"}, {"country": "Palestine/West Bank", "iso3": "PSE", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Press freedom / dissent", "issue_score": 0.647, "corr": 0.464, "civlib": 0.424, "rol": 0.456, "press": 0.353, "region": "Asia"}, {"country": "Panama", "iso3": "PAN", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.485, "corr": 0.485, "civlib": 0.874, "rol": 0.841, "press": 0.812, "region": "America"}, {"country": "Papua New Guinea", "iso3": "PNG", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.684, "corr": 0.684, "civlib": 0.805, "rol": 0.705, "press": 0.839, "region": "Oceania"}, {"country": "Paraguay", "iso3": "PRY", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.801, "corr": 0.801, "civlib": 0.805, "rol": 0.674, "press": 0.751, "region": "America"}, {"country": "Peru", "iso3": "PER", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.63, "corr": 0.63, "civlib": 0.8, "rol": 0.759, "press": 0.763, "region": "America"}, {"country": "Philippines", "iso3": "PHL", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.841, "corr": 0.841, "civlib": 0.561, "rol": 0.56, "press": 0.676, "region": "Asia"}, {"country": "Poland", "iso3": "POL", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Rule of law", "issue_score": 0.105, "corr": 0.081, "civlib": 0.918, "rol": 0.895, "press": 0.917, "region": "Europe"}, {"country": "Portugal", "iso3": "PRT", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Rule of law", "issue_score": 0.193, "corr": 0.166, "civlib": 0.836, "rol": 0.807, "press": 0.899, "region": "Europe"}, {"country": "Qatar", "iso3": "QAT", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Press freedom / dissent", "issue_score": 0.945, "corr": 0.331, "civlib": 0.357, "rol": 0.452, "press": 0.055, "region": "Asia"}, {"country": "Republic of Vietnam", "iso3": "VDR", "year": 1975, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Civil liberties", "issue_score": 0.713, "corr": 0.608, "civlib": 0.287, "rol": 0.315, "press": 0.476, "region": "Republic of Vietnam"}, {"country": "Republic of the Congo", "iso3": "COG", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.841, "corr": 0.841, "civlib": 0.326, "rol": 0.32, "press": 0.373, "region": "Africa"}, {"country": "Romania", "iso3": "ROU", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.419, "corr": 0.419, "civlib": 0.877, "rol": 0.849, "press": 0.777, "region": "Europe"}, {"country": "Russia", "iso3": "RUS", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Press freedom / dissent", "issue_score": 0.92, "corr": 0.783, "civlib": 0.265, "rol": 0.302, "press": 0.08, "region": "Europe"}, {"country": "Rwanda", "iso3": "RWA", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Press freedom / dissent", "issue_score": 0.83, "corr": 0.418, "civlib": 0.194, "rol": 0.278, "press": 0.17, "region": "Africa"}, {"country": "Sao Tome and Principe", "iso3": "STP", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.289, "corr": 0.289, "civlib": 0.892, "rol": 0.911, "press": 0.793, "region": "Africa"}, {"country": "Saudi Arabia", "iso3": "SAU", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Press freedom / dissent", "issue_score": 0.908, "corr": 0.326, "civlib": 0.178, "rol": 0.199, "press": 0.092, "region": "Asia"}, {"country": "Senegal", "iso3": "SEN", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.404, "corr": 0.404, "civlib": 0.812, "rol": 0.823, "press": 0.82, "region": "Africa"}, {"country": "Serbia", "iso3": "SRB", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.794, "corr": 0.794, "civlib": 0.73, "rol": 0.807, "press": 0.424, "region": "Europe"}, {"country": "Seychelles", "iso3": "SYC", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Press freedom / dissent", "issue_score": 0.126, "corr": 0.054, "civlib": 0.904, "rol": 0.966, "press": 0.874, "region": "Africa"}, {"country": "Sierra Leone", "iso3": "SLE", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.571, "corr": 0.571, "civlib": 0.792, "rol": 0.774, "press": 0.823, "region": "Africa"}, {"country": "Singapore", "iso3": "SGP", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Press freedom / dissent", "issue_score": 0.6, "corr": 0.013, "civlib": 0.717, "rol": 0.903, "press": 0.4, "region": "Asia"}, {"country": "Slovakia", "iso3": "SVK", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.29, "corr": 0.29, "civlib": 0.857, "rol": 0.867, "press": 0.765, "region": "Europe"}, {"country": "Slovenia", "iso3": "SVN", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Press freedom / dissent", "issue_score": 0.309, "corr": 0.078, "civlib": 0.883, "rol": 0.94, "press": 0.691, "region": "Europe"}, {"country": "Solomon Islands", "iso3": "SLB", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.602, "corr": 0.602, "civlib": 0.857, "rol": 0.832, "press": 0.84, "region": "Oceania"}, {"country": "Somalia", "iso3": "SOM", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Corruption", "issue_score": 0.87, "corr": 0.87, "civlib": 0.454, "rol": 0.393, "press": 0.619, "region": "Africa"}, {"country": "Somaliland", "iso3": "SML", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.559, "corr": 0.559, "civlib": 0.629, "rol": 0.579, "press": 0.653, "region": "Africa"}, {"country": "South Africa", "iso3": "ZAF", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.538, "corr": 0.538, "civlib": 0.857, "rol": 0.861, "press": 0.837, "region": "Africa"}, {"country": "South Korea", "iso3": "KOR", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Corruption", "issue_score": 0.156, "corr": 0.156, "civlib": 0.912, "rol": 0.942, "press": 0.933, "region": "Asia"}, {"country": "South Sudan", "iso3": "SSD", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Corruption", "issue_score": 0.893, "corr": 0.893, "civlib": 0.228, "rol": 0.171, "press": 0.155, "region": "Africa"}, {"country": "South Yemen", "iso3": "YMD", "year": 1990, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Civil liberties", "issue_score": 0.909, "corr": 0.079, "civlib": 0.091, "rol": 0.221, "press": 0.095, "region": "Asia"}, {"country": "Spain", "iso3": "ESP", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Press freedom / dissent", "issue_score": 0.157, "corr": 0.113, "civlib": 0.942, "rol": 0.971, "press": 0.843, "region": "Europe"}, {"country": "Sri Lanka", "iso3": "LKA", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.278, "corr": 0.278, "civlib": 0.816, "rol": 0.77, "press": 0.871, "region": "Asia"}, {"country": "Sudan", "iso3": "SDN", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Rule of law", "issue_score": 0.892, "corr": 0.719, "civlib": 0.171, "rol": 0.108, "press": 0.289, "region": "Africa"}, {"country": "Suriname", "iso3": "SUR", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.172, "corr": 0.172, "civlib": 0.913, "rol": 0.882, "press": 0.891, "region": "America"}, {"country": "Sweden", "iso3": "SWE", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Press freedom / dissent", "issue_score": 0.054, "corr": 0.009, "civlib": 0.96, "rol": 0.981, "press": 0.946, "region": "Europe"}, {"country": "Switzerland", "iso3": "CHE", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Civil liberties", "issue_score": 0.05, "corr": 0.02, "civlib": 0.95, "rol": 0.982, "press": 0.967, "region": "Europe"}, {"country": "Syria", "iso3": "SYR", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Rule of law", "issue_score": 0.684, "corr": 0.619, "civlib": 0.321, "rol": 0.316, "press": 0.358, "region": "Asia"}, {"country": "Taiwan", "iso3": "TWN", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Corruption", "issue_score": 0.214, "corr": 0.214, "civlib": 0.93, "rol": 0.961, "press": 0.838, "region": "Asia"}, {"country": "Tajikistan", "iso3": "TJK", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Press freedom / dissent", "issue_score": 0.957, "corr": 0.893, "civlib": 0.169, "rol": 0.128, "press": 0.043, "region": "Asia"}, {"country": "Tanzania", "iso3": "TZA", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Press freedom / dissent", "issue_score": 0.448, "corr": 0.329, "civlib": 0.673, "rol": 0.72, "press": 0.552, "region": "Africa"}, {"country": "Thailand", "iso3": "THA", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Rule of law", "issue_score": 0.636, "corr": 0.635, "civlib": 0.478, "rol": 0.364, "press": 0.587, "region": "Asia"}, {"country": "The Gambia", "iso3": "GMB", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.271, "corr": 0.271, "civlib": 0.88, "rol": 0.901, "press": 0.814, "region": "Africa"}, {"country": "Timor-Leste", "iso3": "TLS", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.25, "corr": 0.25, "civlib": 0.873, "rol": 0.82, "press": 0.838, "region": "Asia"}, {"country": "Togo", "iso3": "TGO", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.757, "corr": 0.757, "civlib": 0.6, "rol": 0.54, "press": 0.579, "region": "Africa"}, {"country": "Trinidad and Tobago", "iso3": "TTO", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Rule of law", "issue_score": 0.115, "corr": 0.1, "civlib": 0.888, "rol": 0.885, "press": 0.888, "region": "America"}, {"country": "Tunisia", "iso3": "TUN", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.41, "corr": 0.41, "civlib": 0.685, "rol": 0.745, "press": 0.687, "region": "Africa"}, {"country": "Turkmenistan", "iso3": "TKM", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Press freedom / dissent", "issue_score": 0.962, "corr": 0.899, "civlib": 0.112, "rol": 0.104, "press": 0.038, "region": "Asia"}, {"country": "Türkiye", "iso3": "TUR", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Press freedom / dissent", "issue_score": 0.821, "corr": 0.804, "civlib": 0.402, "rol": 0.314, "press": 0.179, "region": "Asia"}, {"country": "Uganda", "iso3": "UGA", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.889, "corr": 0.889, "civlib": 0.315, "rol": 0.374, "press": 0.432, "region": "Africa"}, {"country": "Ukraine", "iso3": "UKR", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.641, "corr": 0.641, "civlib": 0.578, "rol": 0.545, "press": 0.418, "region": "Europe"}, {"country": "United Arab Emirates", "iso3": "ARE", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Press freedom / dissent", "issue_score": 0.937, "corr": 0.105, "civlib": 0.339, "rol": 0.481, "press": 0.063, "region": "Asia"}, {"country": "United Kingdom", "iso3": "GBR", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Press freedom / dissent", "issue_score": 0.167, "corr": 0.042, "civlib": 0.844, "rol": 0.848, "press": 0.833, "region": "Europe"}, {"country": "United States of America", "iso3": "USA", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Press freedom / dissent", "issue_score": 0.271, "corr": 0.06, "civlib": 0.826, "rol": 0.822, "press": 0.729, "region": "America"}, {"country": "Uruguay", "iso3": "URY", "year": 2025, "regime": "Liberal democracy", "regime_code": 3, "issue_key": "Press freedom / dissent", "issue_score": 0.069, "corr": 0.055, "civlib": 0.932, "rol": 0.932, "press": 0.931, "region": "America"}, {"country": "Uzbekistan", "iso3": "UZB", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Corruption", "issue_score": 0.823, "corr": 0.823, "civlib": 0.369, "rol": 0.368, "press": 0.234, "region": "Asia"}, {"country": "Vanuatu", "iso3": "VUT", "year": 2025, "regime": "Electoral democracy", "regime_code": 2, "issue_key": "Corruption", "issue_score": 0.332, "corr": 0.332, "civlib": 0.881, "rol": 0.891, "press": 0.848, "region": "Oceania"}, {"country": "Venezuela", "iso3": "VEN", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.968, "corr": 0.968, "civlib": 0.307, "rol": 0.191, "press": 0.148, "region": "America"}, {"country": "Vietnam", "iso3": "VNM", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Press freedom / dissent", "issue_score": 0.898, "corr": 0.466, "civlib": 0.384, "rol": 0.435, "press": 0.102, "region": "Asia"}, {"country": "Yemen", "iso3": "YEM", "year": 2025, "regime": "Closed autocracy", "regime_code": 0, "issue_key": "Rule of law", "issue_score": 0.912, "corr": 0.902, "civlib": 0.192, "rol": 0.088, "press": 0.219, "region": "Asia"}, {"country": "Zambia", "iso3": "ZMB", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.428, "corr": 0.428, "civlib": 0.773, "rol": 0.68, "press": 0.778, "region": "Africa"}, {"country": "Zanzibar", "iso3": "ZZB", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.524, "corr": 0.524, "civlib": 0.648, "rol": 0.656, "press": 0.54, "region": "Zanzibar"}, {"country": "Zimbabwe", "iso3": "ZWE", "year": 2025, "regime": "Electoral autocracy", "regime_code": 1, "issue_key": "Corruption", "issue_score": 0.852, "corr": 0.852, "civlib": 0.381, "rol": 0.435, "press": 0.414, "region": "Africa"}];
+
 const UI = {
   en: {
-    eyebrow: "Civic Pulse — v0.1 starting atlas",
-    h1: "Who governs, and what people already say about it",
-    lede_pre: "A first pass at overlaying ",
-    lede_b1: "regime type",
-    lede_mid: " with the ",
-    lede_b2: "main documented grievance",
-    lede_post: " in each country — pulled from existing, publicly available research rather than opinion. This is a seed dataset for ~30 countries to test the idea, not a live feed.",
-    sources: ["◆ V-Dem Institute (regime classification)", "◆ Transparency International CPI (corruption)", "◆ Freedom House (civil liberties)", "◆ Pew / World Values Survey (public sentiment)"],
+    eyebrow: "Civic Pulse — V-Dem edition, 183 countries",
+    h1: "Regime type and top flagged concern, by country",
+    lede: "Built directly from the <b>V-Dem</b> (Varieties of Democracy) Country-Year dataset, version 16 — each country's most recent coded year, its regime classification, and whichever of corruption, civil liberties, rule of law, or press freedom scores worst. V-Dem does not measure war/conflict or economic inequality, so those aren't shown here — a future version could add UCDP (conflict) and World Bank Gini (inequality) data.",
+    sources: ["◆ Source: V-Dem Institute, Country-Year Full+Others v16", "◆ Scores are 0–1 scale, higher = better (except flagged concern, shown inverted)"],
     searchPlaceholder: "Search a country…",
+    labelIssue: "Top concern:",
+    labelRegion: "Region:",
     countTemplate: (n, total) => `${n} of ${total} countries shown`,
     emptyState: "No matches — try a different filter or search term.",
     regimeLabel: "Regime:",
-    footer: 'Illustrative starting set, not exhaustive or authoritative — classifications simplify complex, contested realities and can shift quickly. For live, sourced data, the real datasets are public: <a href="https://www.v-dem.net" target="_blank">v-dem.net</a>, <a href="https://www.transparency.org/en/cpi" target="_blank">transparency.org/cpi</a>, <a href="https://freedomhouse.org" target="_blank">freedomhouse.org</a>, <a href="https://worldvaluessurvey.org" target="_blank">worldvaluessurvey.org</a>. A next step: swap this seed array for a live CSV pull from those sources.',
-    issues: {
-      "War / conflict": "War / conflict",
-      "Corruption": "Corruption",
-      "Press freedom / dissent": "Press freedom / dissent",
-      "Inequality": "Inequality",
-      "Democratic backsliding": "Democratic backsliding",
-      "All": "All"
-    }
+    yearLabel: "data year",
+    footer: 'Source: <a href="https://www.v-dem.net" target="_blank">V-Dem Institute</a>, Country-Year Full+Others dataset, version 16. Regime categories follow V-Dem\'s Regimes of the World (RoW) typology (v2x_regime). "Top concern" is the worst-scoring of corruption, civil liberties, rule of law, and press freedom for that country — a simplification, not an official V-Dem output. Updated roughly once a year when V-Dem releases a new version; re-run the aggregation script on the new CSV to refresh.',
+    regimeNames: {0:"Closed autocracy", 1:"Electoral autocracy", 2:"Electoral democracy", 3:"Liberal democracy"},
+    issueNames: {"Corruption":"Corruption", "Civil liberties":"Civil liberties", "Rule of law":"Rule of law", "Press freedom / dissent":"Press freedom / dissent", "All":"All"},
+    regionNames: {"Africa":"Africa","America":"Americas","Asia":"Asia","Europe":"Europe","Oceania":"Oceania","All":"All"},
+    bars: {corr:"COR", civlib:"CL", rol:"RoL", press:"PF"}
   },
   de: {
-    eyebrow: "Civic Pulse — v0.1 Startversion",
-    h1: "Wer regiert, und was die Menschen dazu sagen",
-    lede_pre: "Ein erster Versuch, den ",
-    lede_b1: "Regierungstyp",
-    lede_mid: " mit dem ",
-    lede_b2: "dokumentierten Hauptproblem",
-    lede_post: " jedes Landes zu verbinden — aus bereits vorhandener, öffentlich zugänglicher Forschung, nicht aus Meinung. Dies ist ein Startdatensatz für ~30 Länder, um die Idee zu testen, keine Live-Anbindung.",
-    sources: ["◆ V-Dem Institute (Regimeklassifizierung)", "◆ Transparency International CPI (Korruption)", "◆ Freedom House (bürgerliche Freiheiten)", "◆ Pew / World Values Survey (öffentliche Stimmung)"],
+    eyebrow: "Civic Pulse — V-Dem-Ausgabe, 183 Länder",
+    h1: "Regierungsform und größtes gemeldetes Problem, nach Land",
+    lede: "Direkt aus dem <b>V-Dem</b>-Datensatz (Varieties of Democracy), Country-Year, Version 16 aufgebaut — jeweils das neueste erfasste Jahr pro Land, die Regimeklassifizierung sowie der am schlechtesten bewertete Bereich unter Korruption, bürgerlichen Freiheiten, Rechtsstaatlichkeit oder Pressefreiheit. V-Dem misst weder Krieg/Konflikt noch wirtschaftliche Ungleichheit — eine künftige Version könnte UCDP (Konflikte) und World-Bank-Gini (Ungleichheit) ergänzen.",
+    sources: ["◆ Quelle: V-Dem Institute, Country-Year Full+Others v16", "◆ Werte auf Skala 0–1, höher = besser (außer beim Problem-Wert, invertiert dargestellt)"],
     searchPlaceholder: "Land suchen…",
+    labelIssue: "Hauptproblem:",
+    labelRegion: "Region:",
     countTemplate: (n, total) => `${n} von ${total} Ländern angezeigt`,
     emptyState: "Keine Treffer — anderen Filter oder Suchbegriff versuchen.",
     regimeLabel: "Regierungsform:",
-    footer: 'Illustrative Startauswahl, nicht vollständig oder autoritativ — Klassifizierungen vereinfachen komplexe, umstrittene Realitäten und können sich schnell ändern. Für live gepflegte Daten sind die echten Datensätze öffentlich: <a href="https://www.v-dem.net" target="_blank">v-dem.net</a>, <a href="https://www.transparency.org/en/cpi" target="_blank">transparency.org/cpi</a>, <a href="https://freedomhouse.org" target="_blank">freedomhouse.org</a>, <a href="https://worldvaluessurvey.org" target="_blank">worldvaluessurvey.org</a>. Nächster Schritt: dieses Start-Array durch einen Live-CSV-Import aus diesen Quellen ersetzen.',
-    issues: {
-      "War / conflict": "Krieg / Konflikt",
-      "Corruption": "Korruption",
-      "Press freedom / dissent": "Pressefreiheit / Dissens",
-      "Inequality": "Ungleichheit",
-      "Democratic backsliding": "Demokratischer Rückschritt",
-      "All": "Alle"
-    }
+    yearLabel: "Datenjahr",
+    footer: 'Quelle: <a href="https://www.v-dem.net" target="_blank">V-Dem Institute</a>, Country-Year Full+Others Datensatz, Version 16. Die Regimekategorien folgen V-Dems „Regimes of the World" (RoW) Typologie (v2x_regime). Das „Hauptproblem" ist der am schlechtesten bewertete Bereich aus Korruption, bürgerlichen Freiheiten, Rechtsstaatlichkeit und Pressefreiheit — eine Vereinfachung, kein offizieller V-Dem-Output. Wird etwa einmal jährlich aktualisiert, wenn V-Dem eine neue Version veröffentlicht; dazu das Aggregationsskript einfach erneut auf die neue CSV anwenden.',
+    regimeNames: {0:"Geschlossene Autokratie", 1:"Wahlautokratie", 2:"Wahldemokratie", 3:"Liberale Demokratie"},
+    issueNames: {"Corruption":"Korruption", "Civil liberties":"Bürgerliche Freiheiten", "Rule of law":"Rechtsstaatlichkeit", "Press freedom / dissent":"Pressefreiheit / Dissens", "All":"Alle"},
+    regionNames: {"Africa":"Afrika","America":"Amerika","Asia":"Asien","Europe":"Europa","Oceania":"Ozeanien","All":"Alle"},
+    bars: {corr:"KOR", civlib:"BF", rol:"RS", press:"PF"}
   }
 };
 
-// ---------- Country data, EN/DE ----------
-// issue_key stays constant (used for filtering & border colors) — only the
-// LABEL shown to the user is translated via UI[lang].issues[issue_key].
-const DATA = [
-  {country:{en:"United States", de:"Vereinigte Staaten"}, region:{en:"N. America", de:"Nordamerika"}, regime:{en:"Presidential democracy", de:"Präsidiale Demokratie"}, issue_key:"Democratic backsliding", note:{en:"Deep polarization, contested trust in electoral institutions, and rising inequality feature heavily in domestic surveys.", de:"Tiefe Polarisierung, umstrittenes Vertrauen in Wahlinstitutionen und wachsende Ungleichheit prägen innenpolitische Umfragen stark."}},
-  {country:{en:"Russia", de:"Russland"}, region:{en:"Europe/Asia", de:"Europa/Asien"}, regime:{en:"Centralized authoritarian", de:"Zentralisiert autoritär"}, issue_key:"War / conflict", note:{en:"War in Ukraine, tight press control, and suppressed political opposition dominate independent assessments.", de:"Krieg in der Ukraine, strenge Pressekontrolle und unterdrückte politische Opposition prägen unabhängige Einschätzungen."}},
-  {country:{en:"China", de:"China"}, region:{en:"Asia", de:"Asien"}, regime:{en:"One-party state", de:"Einparteienstaat"}, issue_key:"Press freedom / dissent", note:{en:"Extensive censorship and surveillance; strong state control over information and dissent.", de:"Umfassende Zensur und Überwachung; starke staatliche Kontrolle über Information und Dissens."}},
-  {country:{en:"Ukraine", de:"Ukraine"}, region:{en:"Europe", de:"Europa"}, regime:{en:"Democracy (wartime)", de:"Demokratie (Kriegszustand)"}, issue_key:"War / conflict", note:{en:"Ongoing war since 2022; population directly bearing the human cost of the conflict.", de:"Andauernder Krieg seit 2022; Bevölkerung trägt die menschlichen Kosten des Konflikts unmittelbar."}},
-  {country:{en:"Germany", de:"Deutschland"}, region:{en:"Europe", de:"Europa"}, regime:{en:"Parliamentary democracy", de:"Parlamentarische Demokratie"}, issue_key:"Inequality", note:{en:"Relatively stable governance; recurring debate over energy costs, migration policy, and regional inequality.", de:"Relativ stabile Regierungsführung; wiederkehrende Debatten über Energiekosten, Migrationspolitik und regionale Ungleichheit."}},
-  {country:{en:"France", de:"Frankreich"}, region:{en:"Europe", de:"Europa"}, regime:{en:"Semi-presidential democracy", de:"Semi-präsidiale Demokratie"}, issue_key:"Democratic backsliding", note:{en:"Frequent mass protests over pension and economic reform; persistent distrust in political elites.", de:"Häufige Massenproteste gegen Renten- und Wirtschaftsreformen; anhaltendes Misstrauen gegenüber politischen Eliten."}},
-  {country:{en:"United Kingdom", de:"Vereinigtes Königreich"}, region:{en:"Europe", de:"Europa"}, regime:{en:"Parliamentary democracy", de:"Parlamentarische Demokratie"}, issue_key:"Inequality", note:{en:"Cost-of-living pressures and regional inequality are recurring themes in public sentiment surveys.", de:"Lebenshaltungskosten und regionale Ungleichheit sind wiederkehrende Themen in Stimmungsumfragen."}},
-  {country:{en:"India", de:"Indien"}, region:{en:"Asia", de:"Asien"}, regime:{en:"Federal democracy", de:"Föderale Demokratie"}, issue_key:"Press freedom / dissent", note:{en:"Freedom House and others have flagged declining press freedom rankings and communal tension in recent years.", de:"Freedom House und andere verweisen auf sinkende Pressefreiheit und zunehmende gesellschaftliche Spannungen."}},
-  {country:{en:"Pakistan", de:"Pakistan"}, region:{en:"Asia", de:"Asien"}, regime:{en:"Hybrid (military-influenced)", de:"Hybrid (militärisch beeinflusst)"}, issue_key:"Corruption", note:{en:"Recurring cycles of civilian government and military influence; high perceived corruption.", de:"Wiederkehrende Zyklen aus ziviler Regierung und militärischem Einfluss; hoch wahrgenommene Korruption."}},
-  {country:{en:"Myanmar", de:"Myanmar"}, region:{en:"Asia", de:"Asien"}, regime:{en:"Military junta", de:"Militärjunta"}, issue_key:"War / conflict", note:{en:"Military coup (2021) followed by ongoing civil conflict and severe human rights documentation gaps.", de:"Militärputsch (2021), gefolgt von anhaltendem Bürgerkrieg und gravierenden Lücken bei der Menschenrechtsdokumentation."}},
-  {country:{en:"North Korea", de:"Nordkorea"}, region:{en:"Asia", de:"Asien"}, regime:{en:"Totalitarian", de:"Totalitär"}, issue_key:"Press freedom / dissent", note:{en:"Ranked at or near the bottom of nearly every global freedom and information-access index.", de:"Liegt in nahezu jedem globalen Freiheits- und Informationszugangsindex ganz unten."}},
-  {country:{en:"Afghanistan", de:"Afghanistan"}, region:{en:"Asia", de:"Asien"}, regime:{en:"Authoritarian (Taliban)", de:"Autoritär (Taliban)"}, issue_key:"Press freedom / dissent", note:{en:"Severe restrictions on women's rights and civil liberties documented since 2021.", de:"Seit 2021 dokumentierte schwere Einschränkungen der Frauenrechte und bürgerlichen Freiheiten."}},
-  {country:{en:"Iran", de:"Iran"}, region:{en:"Middle East", de:"Naher Osten"}, regime:{en:"Theocratic authoritarian", de:"Theokratisch-autoritär"}, issue_key:"Press freedom / dissent", note:{en:"Widespread protests since 2022 met with harsh crackdowns; strict information controls.", de:"Seit 2022 verbreitete Proteste, die hart niedergeschlagen wurden; strenge Informationskontrolle."}},
-  {country:{en:"Saudi Arabia", de:"Saudi-Arabien"}, region:{en:"Middle East", de:"Naher Osten"}, regime:{en:"Absolute monarchy", de:"Absolute Monarchie"}, issue_key:"Press freedom / dissent", note:{en:"No elected national legislature; tightly controlled press and dissent.", de:"Kein gewähltes nationales Parlament; streng kontrollierte Presse und Opposition."}},
-  {country:{en:"Israel", de:"Israel"}, region:{en:"Middle East", de:"Naher Osten"}, regime:{en:"Parliamentary democracy", de:"Parlamentarische Demokratie"}, issue_key:"War / conflict", note:{en:"Ongoing conflict with Gaza/Palestinian territories; deep domestic divisions over judicial reform.", de:"Andauernder Konflikt mit Gaza/den palästinensischen Gebieten; tiefe innenpolitische Gräben bei der Justizreform."}},
-  {country:{en:"Turkey", de:"Türkei"}, region:{en:"Europe/Asia", de:"Europa/Asien"}, regime:{en:"Presidential (hybrid)", de:"Präsidial (hybrid)"}, issue_key:"Democratic backsliding", note:{en:"V-Dem and Freedom House have both noted a multi-year decline in judicial independence and press freedom.", de:"V-Dem und Freedom House verzeichnen beide einen mehrjährigen Rückgang von Justizunabhängigkeit und Pressefreiheit."}},
-  {country:{en:"Venezuela", de:"Venezuela"}, region:{en:"S. America", de:"Südamerika"}, regime:{en:"Authoritarian", de:"Autoritär"}, issue_key:"Corruption", note:{en:"Severe economic crisis, mass emigration, and contested elections widely documented.", de:"Schwere Wirtschaftskrise, Massenauswanderung und umstrittene Wahlen sind breit dokumentiert."}},
-  {country:{en:"Brazil", de:"Brasilien"}, region:{en:"S. America", de:"Südamerika"}, regime:{en:"Presidential democracy", de:"Präsidiale Demokratie"}, issue_key:"Inequality", note:{en:"High income inequality alongside a resilient democratic institution set, per V-Dem.", de:"Laut V-Dem hohe Einkommensungleichheit bei gleichzeitig widerstandsfähigen demokratischen Institutionen."}},
-  {country:{en:"Argentina", de:"Argentinien"}, region:{en:"S. America", de:"Südamerika"}, regime:{en:"Presidential democracy", de:"Präsidiale Demokratie"}, issue_key:"Corruption", note:{en:"Recurring economic instability and corruption scandals across administrations.", de:"Wiederkehrende wirtschaftliche Instabilität und Korruptionsskandale über mehrere Regierungen hinweg."}},
-  {country:{en:"Mexico", de:"Mexiko"}, region:{en:"N. America", de:"Nordamerika"}, regime:{en:"Presidential democracy", de:"Präsidiale Demokratie"}, issue_key:"Corruption", note:{en:"High-profile corruption and cartel-related violence remain top public concerns in national surveys.", de:"Prominente Korruptionsfälle und kartellbedingte Gewalt bleiben in Umfragen die größten Sorgen der Bevölkerung."}},
-  {country:{en:"Nigeria", de:"Nigeria"}, region:{en:"Africa", de:"Afrika"}, regime:{en:"Federal democracy", de:"Föderale Demokratie"}, issue_key:"Corruption", note:{en:"Consistently ranks among the lower half of the Corruption Perceptions Index despite competitive elections.", de:"Liegt trotz kompetitiver Wahlen beständig in der unteren Hälfte des Korruptionswahrnehmungsindex."}},
-  {country:{en:"Ethiopia", de:"Äthiopien"}, region:{en:"Africa", de:"Afrika"}, regime:{en:"Federal (dominant party)", de:"Föderal (dominante Partei)"}, issue_key:"War / conflict", note:{en:"Internal conflicts (notably Tigray, 2020–2022) with major documented humanitarian impact.", de:"Interne Konflikte (insbesondere Tigray, 2020–2022) mit großen dokumentierten humanitären Folgen."}},
-  {country:{en:"South Africa", de:"Südafrika"}, region:{en:"Africa", de:"Afrika"}, regime:{en:"Parliamentary democracy", de:"Parlamentarische Demokratie"}, issue_key:"Inequality", note:{en:"One of the highest income-inequality rates globally despite strong constitutional protections.", de:"Eine der weltweit höchsten Einkommensungleichheiten trotz starker verfassungsrechtlicher Schutzmechanismen."}},
-  {country:{en:"Sudan", de:"Sudan"}, region:{en:"Africa", de:"Afrika"}, regime:{en:"Civil war / contested", de:"Bürgerkrieg / umstritten"}, issue_key:"War / conflict", note:{en:"Ongoing civil war since 2023 with one of the world's largest current displacement crises.", de:"Andauernder Bürgerkrieg seit 2023 mit einer der weltweit größten aktuellen Vertreibungskrisen."}},
-  {country:{en:"Egypt", de:"Ägypten"}, region:{en:"Africa", de:"Afrika"}, regime:{en:"Presidential authoritarian", de:"Präsidial-autoritär"}, issue_key:"Press freedom / dissent", note:{en:"Consistently low press freedom rankings; broad restrictions on political opposition.", de:"Durchgehend niedrige Pressefreiheit; weitreichende Einschränkungen politischer Opposition."}},
-  {country:{en:"Japan", de:"Japan"}, region:{en:"Asia", de:"Asien"}, regime:{en:"Parliamentary democracy", de:"Parlamentarische Demokratie"}, issue_key:"Democratic backsliding", note:{en:"Stable democracy; public concern centers more on long-term single-party dominance and low voter turnout.", de:"Stabile Demokratie; öffentliche Sorge betrifft eher langfristige Dominanz einer Partei und niedrige Wahlbeteiligung."}},
-  {country:{en:"South Korea", de:"Südkorea"}, region:{en:"Asia", de:"Asien"}, regime:{en:"Presidential democracy", de:"Präsidiale Demokratie"}, issue_key:"Democratic backsliding", note:{en:"Strong democratic institutions tested by a 2024 martial-law attempt, later reversed.", de:"Starke demokratische Institutionen wurden 2024 durch einen später zurückgenommenen Kriegsrechtsversuch auf die Probe gestellt."}},
-  {country:{en:"Poland", de:"Polen"}, region:{en:"Europe", de:"Europa"}, regime:{en:"Parliamentary democracy", de:"Parlamentarische Demokratie"}, issue_key:"Democratic backsliding", note:{en:"Years of EU concern over judicial independence, partially reversed after the 2023 election.", de:"Jahrelange EU-Bedenken zur Justizunabhängigkeit, nach der Wahl 2023 teilweise rückgängig gemacht."}},
-  {country:{en:"Hungary", de:"Ungarn"}, region:{en:"Europe", de:"Europa"}, regime:{en:"Hybrid regime", de:"Hybrides Regime"}, issue_key:"Democratic backsliding", note:{en:"V-Dem has downgraded Hungary from full democracy over media concentration and judicial independence concerns.", de:"V-Dem hat Ungarn wegen Mediendonzentration und Bedenken zur Justizunabhängigkeit von voller Demokratie herabgestuft."}},
-  {country:{en:"Sweden", de:"Schweden"}, region:{en:"Europe", de:"Europa"}, regime:{en:"Parliamentary democracy", de:"Parlamentarische Demokratie"}, issue_key:"Inequality", note:{en:"Consistently ranks near the top of global democracy and low-corruption indices.", de:"Liegt beständig nahe der Spitze globaler Demokratie- und Korruptionsindizes."}},
-];
-
 let lang = 'en';
 let activeIssue = 'All';
+let activeRegion = 'All';
 let searchTerm = '';
+
+function issueColor(key){
+  switch(key){
+    case "Corruption": return "#b5793a";
+    case "Civil liberties": return "#2d5d5a";
+    case "Rule of law": return "#7a6a3a";
+    case "Press freedom / dissent": return "#6b4a8a";
+    default: return "#b5793a";
+  }
+}
+
+function buildChips(){
+  const t = UI[lang];
+  const issueWrap = document.getElementById('issueChips');
+  const issueKeys = ["All", ...Array.from(new Set(DATA.map(d => d.issue_key).filter(Boolean)))];
+  issueWrap.innerHTML = '';
+  issueKeys.forEach(key => {
+    const btn = document.createElement('button');
+    btn.className = 'chip' + (key === activeIssue ? ' active' : '');
+    btn.textContent = t.issueNames[key] || key;
+    btn.onclick = () => { activeIssue = key; buildChips(); renderCards(); };
+    issueWrap.appendChild(btn);
+  });
+
+  const regionWrap = document.getElementById('regionChips');
+  const regionKeys = ["All", ...Array.from(new Set(DATA.map(d => d.region).filter(Boolean))).sort()];
+  regionWrap.innerHTML = '';
+  regionKeys.forEach(key => {
+    const btn = document.createElement('button');
+    btn.className = 'chip' + (key === activeRegion ? ' active' : '');
+    btn.textContent = t.regionNames[key] || key;
+    btn.onclick = () => { activeRegion = key; buildChips(); renderCards(); };
+    regionWrap.appendChild(btn);
+  });
+}
 
 function applyStaticText(){
   const t = UI[lang];
   document.documentElement.lang = lang;
   document.getElementById('eyebrow').textContent = t.eyebrow;
   document.getElementById('h1').textContent = t.h1;
-  document.getElementById('lede').innerHTML = `${t.lede_pre}<b>${t.lede_b1}</b>${t.lede_mid}<b>${t.lede_b2}</b>${t.lede_post}`;
+  document.getElementById('lede').innerHTML = t.lede;
   document.getElementById('sources').innerHTML = t.sources.map(s => `<span>${s}</span>`).join('');
   document.getElementById('search').placeholder = t.searchPlaceholder;
+  document.getElementById('labelIssue').textContent = t.labelIssue;
+  document.getElementById('labelRegion').textContent = t.labelRegion;
   document.getElementById('footer').innerHTML = t.footer;
-
-  // rebuild issue chips with translated labels, same underlying keys
-  const chipWrap = document.getElementById('issueChips');
-  const issueKeys = ["All", ...Array.from(new Set(DATA.map(d => d.issue_key)))];
-  chipWrap.innerHTML = '';
-  issueKeys.forEach(key => {
-    const btn = document.createElement('button');
-    btn.className = 'chip' + (key === activeIssue ? ' active' : '');
-    btn.textContent = t.issues[key] || key;
-    btn.onclick = () => {
-      activeIssue = key;
-      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-      btn.classList.add('active');
-      renderCards();
-    };
-    chipWrap.appendChild(btn);
-  });
+  buildChips();
 }
 
 function renderCards(){
@@ -346,7 +253,8 @@ function renderCards(){
   const grid = document.getElementById('grid');
   const filtered = DATA.filter(d =>
     (activeIssue === 'All' || d.issue_key === activeIssue) &&
-    d.country[lang].toLowerCase().includes(searchTerm)
+    (activeRegion === 'All' || d.region === activeRegion) &&
+    d.country.toLowerCase().includes(searchTerm)
   );
   document.getElementById('count').textContent = t.countTemplate(filtered.length, DATA.length);
 
@@ -358,29 +266,31 @@ function renderCards(){
   filtered.forEach(d => {
     const card = document.createElement('div');
     card.className = 'card';
-    card.style.borderLeftColor = colorForIssue(d.issue_key);
+    card.style.borderLeftColor = issueColor(d.issue_key);
+    const regimeName = t.regimeNames[d.regime_code] || d.regime;
+    const issueName = t.issueNames[d.issue_key] || d.issue_key || '—';
+    const barsHtml = ['corr','civlib','rol','press'].map(k => {
+      let val = d[k];
+      if(val === null || val === undefined) return '';
+      // for corr, higher = worse, so invert for a consistent "good=long bar" feel
+      const displayVal = k === 'corr' ? (1 - val) : val;
+      const pct = Math.round(displayVal * 100);
+      return `<div class="bar-row">
+        <span class="bar-label">${t.bars[k]}</span>
+        <div class="bar-track"><div class="bar-fill" style="width:${pct}%; background:${issueColor(d.issue_key)}"></div></div>
+      </div>`;
+    }).join('');
     card.innerHTML = `
       <div class="card-top">
-        <span class="country">${d.country[lang]}</span>
-        <span class="region">${d.region[lang]}</span>
+        <span class="country">${d.country}</span>
+        <span class="region">${t.regionNames[d.region] || d.region}</span>
       </div>
-      <div class="regime"><b>${t.regimeLabel}</b> ${d.regime[lang]}</div>
-      <span class="issue-tag">${t.issues[d.issue_key] || d.issue_key}</span>
-      <p class="note">${d.note[lang]}</p>
+      <div class="regime"><b>${t.regimeLabel}</b> ${regimeName} <span style="color:#a39c86;">(${d.year})</span></div>
+      <span class="issue-tag">${issueName}</span>
+      <div class="bars">${barsHtml}</div>
     `;
     grid.appendChild(card);
   });
-}
-
-function colorForIssue(key){
-  switch(key){
-    case "War / conflict": return "#a8462f";
-    case "Corruption": return "#b5793a";
-    case "Press freedom / dissent": return "#6b4a8a";
-    case "Inequality": return "#2d5d5a";
-    case "Democratic backsliding": return "#7a6a3a";
-    default: return "#b5793a";
-  }
 }
 
 document.getElementById('search').addEventListener('input', e => {
